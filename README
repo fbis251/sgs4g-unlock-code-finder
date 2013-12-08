@@ -1,0 +1,28 @@
+Name: Samsung Galaxy S 4G Unlock Code Finder
+
+License: GNU GENERAL PUBLIC LICENSE VERSION 3
+         See the LICENSE file for details or
+         https://www.gnu.org/licenses/gpl-3.0.txt
+
+Description: Searches for the carrier unlock code for the Samsung Galaxy S 4G
+             in a fast and easy way. The location of the unlock code is fixed at
+             0x146E in the nv_data.bin file. :). This project finally been
+             written in pure ANSI C to avoid inconsistencies in the software
+             that is typically installed on  phones (such as busybox and other
+             shell utilities). Once statically compiled, the native binary will
+             work on any version of Android as long as the phone is rooted.
+
+Notes: I have compiled this with GCC 4.6 on Ubuntu 12.04. The program does not
+       have any dependencies on Android specific code which means that as long
+       as you have a backup of the nv_data.bin file from the phone, you can get
+       the unlock code on your PC instead of directly on the phone. This also
+       means that you don't have to go through the hassle of cross compiling.
+       The default location of the nv_data.bin file is:
+       /efs/root/afs/settings/nv_data.bin
+
+Target Phone Models:
+    Samsung SGH-T959V
+    Samsung SGH-T959W
+
+Compilation Instructions: To compile with the codesourcery cross compiler,
+    arm-none-linux-gnueabi-gcc --static -o unlock_code unlocker.c
