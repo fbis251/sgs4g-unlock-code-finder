@@ -2,8 +2,8 @@
  * Filename: unlocker.c
  * Author: Fernando Barillas (@fbis251)
  * Description: Searches for the carrier unlock code for the Samsung Galaxy S 4G
- *              in a faster way than other methods. The location of the unlock
- *              code is fixed at 0x146E in the nv_data.bin file. :)
+                in a fast and easy way. The location of the unlock code is fixed
+                at 0x146E in the nv_data.bin file. :)
  * Target Phone Models:
  *     Samsung SGH-T959V
  *     Samsung SGH-T959W
@@ -58,14 +58,13 @@ void printUsage() {
     (void) fprintf( stderr, "\t<filename>: (optional)\n" );
     (void) fprintf( stderr, "\t\tLooks for %s\n", NV_DATA_PATH );
     (void) fprintf( stderr, "\t\tif <filename> parameter is not specified\n" );
-
 }
 
 void readUnlockCode( const char * filename ) {
-    FILE *filePtr;
-    char unlockCode[CODE_LENGTH];
-    int isCodeCorrect = TRUE;
-    int freadResult;
+    FILE *filePtr;                // Pointer to the file we're reading from
+    char unlockCode[CODE_LENGTH]; // Will hold the unlock code string
+    int  isCodeCorrect = TRUE;    // Was the unlock code valid?
+    int  freadResult;             // Result from fread(), used for error checks
 
     // Open the file for reading
     if( ( filePtr = fopen( filename, "rb" ) ) == NULL ) {
@@ -94,6 +93,7 @@ void readUnlockCode( const char * filename ) {
         }
 
         if( unlockCode[i] < ASCII_0 || unlockCode[i] > ASCII_9 ) {
+            // The character wasn't within the proper range
             isCodeCorrect = FALSE;
             break;
         }
