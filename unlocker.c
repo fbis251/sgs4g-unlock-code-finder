@@ -108,7 +108,7 @@ void readUnlockCode( const char * filename ) {
         }
         printf( "\n" );
     } else {
-        printf("There was an error reading your unlock code\n", unlockCode );
+        printf("There was an error reading your unlock code\n" );
         exit( EXIT_FAILURE );
     }
 }
