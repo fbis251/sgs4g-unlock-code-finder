@@ -75,8 +75,9 @@ void readUnlockCode( const char * filename ) {
     }
 
     // Seek to the magic location that contains the unlock code
-    fseek ( filePtr, CODE_LOCATION , SEEK_SET );
+    fseek( filePtr, CODE_LOCATION , SEEK_SET );
     freadResult = fread( unlockCode, 1, CODE_LENGTH, filePtr );
+    fclose( filePtr );
 
     // Make sure we read everything correctly
     if( freadResult != CODE_LENGTH ) {
@@ -87,7 +88,7 @@ void readUnlockCode( const char * filename ) {
     // Verify that the bytes we read are indeed ASCII 0-9 since that indicates
     // we read a good unlock code
     int i;
-    for ( i = 0; i < CODE_LENGTH; i++ ) {
+    for( i = 0; i < CODE_LENGTH; i++ ) {
         if( DEBUG == TRUE ) {
             printf( "0x%08x: %c\n", unlockCode[i], unlockCode[i] );
         }
@@ -102,7 +103,7 @@ void readUnlockCode( const char * filename ) {
     // Show either the code or an error message to the user
     if( isCodeCorrect == TRUE ) {
         // Print the unlock code to screen since it's correct
-        for ( i = 0; i < CODE_LENGTH; i++ ) {
+        for( i = 0; i < CODE_LENGTH; i++ ) {
             printf( "%c", unlockCode[i] );
         }
         printf( "\n" );
