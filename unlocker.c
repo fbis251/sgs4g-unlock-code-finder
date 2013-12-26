@@ -7,16 +7,21 @@
  * Target Phone Models:
  *     Samsung SGH-T959V
  *     Samsung SGH-T959W
- * Date: Dec 7, 2013
- * Compilation Instructions: To compile with the codesourcery cross compiler,
+ * Date: Dec 26, 2013
+ * Compilation Instructions:
+ *     Compile using the makefile:
+ *     make
+ *
+ *     or
+ *
+ *     Compile with the codesourcery cross compiler:
  *     arm-none-linux-gnueabi-gcc --static -o unlock_code unlocker.c
  */
 #include "unlocker.h"
 
 static const int DEBUG = FALSE;
 static char ** programPath;
-// TODO: Add lock status checker
-// static int LOCK_STATUS = 1; // 0 for unlocked, 1 for locked
+static int lockStatus = 1; // 0 for unlocked, 1 for locked
 
 void printUsage() {
     (void) fprintf( stderr, "Usage: %s <filename>\n", *programPath );
@@ -56,7 +61,13 @@ void readUnlockCode( const char * filename ) {
     int i;
     for( i = 0; i < CODE_LENGTH; i++ ) {
         if( DEBUG == TRUE ) {
-            printf( "0x%08x: %c\n", unlockCode[i], unlockCode[i] );
+            printf( "0x%02x: %c\n", unlockCode[i], unlockCode[i] );
+        }
+
+        // We only want to analyze the ASCII code, continue until we reach the
+        // offset and have valid ASCII digits
+        if( i < CODE_OFFSET ) {
+            continue;
         }
 
         if( unlockCode[i] < ASCII_0 || unlockCode[i] > ASCII_9 ) {
@@ -66,13 +77,28 @@ void readUnlockCode( const char * filename ) {
         }
     }
 
+    // The lock status is contained in the first byte
+    lockStatus = unlockCode[0];
+
     // Show either the code or an error message to the user
     if( isCodeCorrect == TRUE ) {
         // Print the unlock code to screen since it's correct
-        for( i = 0; i < CODE_LENGTH; i++ ) {
+        printf( "Unlock Code: " );
+        for( i = CODE_OFFSET; i < CODE_LENGTH; i++ ) {
             printf( "%c", unlockCode[i] );
         }
-        printf( "\n" );
+        printf( "\nLock Status: " );
+        if( lockStatus == UNLOCKED ) {
+            // Unlocked
+            printf( "Unlocked\n" );
+        } else if ( lockStatus == LOCKED ) {
+            // Locked
+            printf( "Locked\n" );
+        } else {
+            // Unknown status, most likely not a valid nv_data.bin file
+            printf( "Unknown\n" );
+        }
+
     } else {
         printf("There was an error reading your unlock code\n" );
         exit( EXIT_FAILURE );
