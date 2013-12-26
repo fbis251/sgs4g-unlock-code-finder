@@ -48,5 +48,3 @@
 /* Function declarations */
 void printUsage();
 void readUnlockCode( const char * );
-
-

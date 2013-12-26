@@ -9,7 +9,7 @@
  *     Samsung SGH-T959W
  * Date: Dec 26, 2013
  * Compilation Instructions:
- *     Compile using the makefile:
+ *     Compile using the Makefile:
  *     make
  *
  *     or
