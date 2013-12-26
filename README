@@ -24,5 +24,11 @@ Target Phone Models:
     Samsung SGH-T959V
     Samsung SGH-T959W
 
-Compilation Instructions: To compile with the codesourcery cross compiler,
+Compilation Instructions:
+    Compile using the Makefile:
+    make
+
+    or
+
+    Compile with the codesourcery cross compiler:
     arm-none-linux-gnueabi-gcc --static -o unlock_code unlocker.c
