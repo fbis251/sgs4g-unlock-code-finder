@@ -59,15 +59,9 @@ void readUnlockCode( const char * filename ) {
     // Verify that the bytes we read are indeed ASCII 0-9 since that indicates
     // we read a good unlock code
     int i;
-    for( i = 0; i < CODE_LENGTH; i++ ) {
+    for( i = CODE_OFFSET; i < CODE_LENGTH; i++ ) {
         if( DEBUG == TRUE ) {
             printf( "0x%02x: %c\n", unlockCode[i], unlockCode[i] );
-        }
-
-        // We only want to analyze the ASCII code, continue until we reach the
-        // offset and have valid ASCII digits
-        if( i < CODE_OFFSET ) {
-            continue;
         }
 
         if( unlockCode[i] < ASCII_0 || unlockCode[i] > ASCII_9 ) {
